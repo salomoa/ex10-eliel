@@ -2,6 +2,7 @@ package com.tarefas.demo.controllers;
 
 import com.tarefas.demo.model.TarefaModel;
 import com.tarefas.demo.repositories.TarefaRepository;
+import com.tarefas.demo.services.TarefaServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,42 +17,43 @@ import java.util.Optional;
 public class TarefaController {
 
     @Autowired
-    private TarefaRepository tarefaRepository;
+    private TarefaServices tarefaServices;
 
     @GetMapping
         public ResponseEntity<List<TarefaModel> > findAll() {
-        List<TarefaModel> tarefaModels = tarefaRepository.findAll();
-        return ResponseEntity.ok(tarefaRepository.findAll());
+        List<TarefaModel> tarefaModels = tarefaServices.findAll();
+        return ResponseEntity.ok(tarefaServices.findAll());
         }
 
     @PostMapping
     public ResponseEntity<TarefaModel> criarTarefa(@RequestBody TarefaModel tarefaModel) {
-        TarefaModel tarefa = tarefaRepository.save(tarefaModel);
+        TarefaModel tarefa = tarefaServices.criarTarefa(tarefaModel);
         URI uri  = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}")
                 .buildAndExpand(tarefaModel.getId())
                 .toUri();
-        return ResponseEntity.created(uri).build(tarefa);
+        return ResponseEntity.created(uri).build();
     }
 
     @DeleteMapping
     public ResponseEntity<TarefaModel> deletarTarefa(@RequestParam Long id){
-        tarefaRepository.deleteById(id);
+        tarefaServices.excluir(id);
         return ResponseEntity.noContent().build();
     }
 
     @GetMapping("/{id}")
-    public Optional<TarefaModel> buscarId(@PathVariable Long id){ return tarefaRepository.findById(id); }
+    public Optional<TarefaModel> buscarId(@PathVariable Long id){ return tarefaServices.buscarId(id); }
 
 
     @PutMapping("/{id}")
     public ResponseEntity <TarefaModel> atualizar(@PathVariable Long id, @RequestBody TarefaModel tarefaModel){
-        TarefaModel tarefa = tarefaRepository.atualizar(id, tarefaModel);
-        URI uri = ServletUriComponentsBuilder.fromRequestUri()
+        TarefaModel tarefa = tarefaServices.atualizar(id, tarefaModel);
+        URI uri;
+        uri = ServletUriComponentsBuilder.fromCurrentRequestUri()
                 .path("/{id}")
-                .buildAndExpand(TarefaModel.getId())
+                .buildAndExpand(tarefaModel.getId())
                 .toUri();
-        return ResponseEntity.created(uri).build(tarefa);
+        return ResponseEntity.created(uri).build();
     }
 
 

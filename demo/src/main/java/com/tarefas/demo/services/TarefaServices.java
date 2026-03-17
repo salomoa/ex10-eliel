@@ -3,10 +3,13 @@ package com.tarefas.demo.services;
 import com.tarefas.demo.model.TarefaModel;
 import com.tarefas.demo.repositories.TarefaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 
 import java.util.List;
 import java.util.Optional;
 
+@Service
 public class TarefaServices {
 
     @Autowired
