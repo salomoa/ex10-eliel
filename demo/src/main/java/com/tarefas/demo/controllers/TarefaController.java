@@ -1,7 +1,6 @@
 package com.tarefas.demo.controllers;
 
 import com.tarefas.demo.model.TarefaModel;
-import com.tarefas.demo.repositories.TarefaRepository;
 import com.tarefas.demo.services.TarefaServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -20,9 +19,9 @@ public class TarefaController {
     private TarefaServices tarefaServices;
 
     @GetMapping
-        public ResponseEntity<List<TarefaModel> > findAll() {
-        List<TarefaModel> tarefaModels = tarefaServices.findAll();
-        return ResponseEntity.ok(tarefaServices.findAll());
+        public ResponseEntity<List<TarefaModel> > buscarTodasAsTarefas() {
+        List<TarefaModel> tarefaModels = tarefaServices.buscarTodasAsTarefas();
+        return ResponseEntity.ok(tarefaServices.buscarTodasAsTarefas());
         }
 
     @PostMapping
@@ -37,23 +36,18 @@ public class TarefaController {
 
     @DeleteMapping
     public ResponseEntity<TarefaModel> deletarTarefa(@RequestParam Long id){
-        tarefaServices.excluir(id);
+        tarefaServices.excluirTarefa(id);
         return ResponseEntity.noContent().build();
     }
 
     @GetMapping("/{id}")
-    public Optional<TarefaModel> buscarId(@PathVariable Long id){ return tarefaServices.buscarId(id); }
+    public Optional<TarefaModel> buscarTarefaPorId(@PathVariable Long id){ return tarefaServices.buscarTarefaId(id); }
 
 
     @PutMapping("/{id}")
-    public ResponseEntity <TarefaModel> atualizar(@PathVariable Long id, @RequestBody TarefaModel tarefaModel){
-        TarefaModel tarefa = tarefaServices.atualizar(id, tarefaModel);
-        URI uri;
-        uri = ServletUriComponentsBuilder.fromCurrentRequestUri()
-                .path("/{id}")
-                .buildAndExpand(tarefaModel.getId())
-                .toUri();
-        return ResponseEntity.created(uri).build();
+    public ResponseEntity <TarefaModel> atualizarTarefa(@PathVariable Long id, @RequestBody TarefaModel tarefaModel){
+        TarefaModel tarefa = tarefaServices.atualizarTarefas(id, tarefaModel);
+        return ResponseEntity.ok().build();
     }
 
 

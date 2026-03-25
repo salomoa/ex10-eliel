@@ -15,13 +15,13 @@ public class TarefaServices {
     @Autowired
     private TarefaRepository tarefaRepository;
 
-    public List<TarefaModel> findAll() { return tarefaRepository.findAll() ;}
+    public List<TarefaModel> buscarTodasAsTarefas() { return tarefaRepository.findAll() ;}
 
     public TarefaModel criarTarefa(TarefaModel tarefaModel) { return tarefaRepository.save(tarefaModel);}
 
-    public Optional<TarefaModel> buscarId(Long id) { return tarefaRepository.findById(id); }
+    public Optional<TarefaModel> buscarTarefaId(Long id) { return tarefaRepository.findById(id); }
 
-    public TarefaModel atualizar(Long id, TarefaModel tarefaModel) {
+    public TarefaModel atualizarTarefas(Long id, TarefaModel tarefaModel) {
         TarefaModel model =  tarefaRepository.findById(id).get();
         model.setDescricao(tarefaModel.getDescricao());
         model.setDataVencimento(tarefaModel.getDataVencimento());
@@ -29,5 +29,5 @@ public class TarefaServices {
         return tarefaRepository.save(model);
     }
 
-    public void excluir(Long id) { tarefaRepository.deleteById(id); }
+    public void excluirTarefa(Long id) { tarefaRepository.deleteById(id); }
 }

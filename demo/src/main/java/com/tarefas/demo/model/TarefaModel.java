@@ -11,11 +11,13 @@ public class TarefaModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(name = "description")
     private String descricao;
+    @Column(name = "vencimento")
     private LocalDate dataVencimento;
+    @Column(name = "concluded")
     private Boolean concluida;
 
-    @Column(name = "description")
     public String getDescricao() {
         return descricao;
     }
@@ -32,7 +34,6 @@ public class TarefaModel {
         this.id = id;
     }
 
-    @Column(name = "vencimento")
     public LocalDate getDataVencimento() {
         return dataVencimento;
     }
@@ -41,7 +42,6 @@ public class TarefaModel {
         this.dataVencimento = dataVencimento;
     }
 
-    @Column(name = "concluded")
     public Boolean getConcluida() {
         return concluida;
     }
